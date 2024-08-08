@@ -5,11 +5,12 @@ using UnityEngine.InputSystem;
 
 public class PlayerMove : MonoBehaviour
 {
-    public Rigidbody rigidbody;
+    public Rigidbody rBody;
     public GameObject camDisplay;
-    public float speed, sensitivity, maxForce;
+    public float speed, sensitivity, maxForce, jumpingForce;
     public Vector2 move, look;
     public float lookRoatation;
+    public bool grounded;
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -19,11 +20,19 @@ public class PlayerMove : MonoBehaviour
     {
         look = context.ReadValue<Vector2>();
     }
-
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        Jumping();
+    }
     private void FixedUpdate() 
     {
+        Movement();
+    }
+
+    void Movement()
+    {
         //find target velocity
-        Vector3 currentVelocity = rigidbody.velocity;
+        Vector3 currentVelocity = rBody.velocity;
         Vector3 targetVelocity = new Vector3(move.x, 0, move.y);
         targetVelocity *= speed;
 
@@ -31,21 +40,50 @@ public class PlayerMove : MonoBehaviour
         targetVelocity = transform.TransformDirection(targetVelocity);
 
         //Calculate forces
-        Vector3 velocityChange = (targetVelocity - currentVelocity);
+        Vector3 velocityChange = targetVelocity - currentVelocity;
+        velocityChange = new Vector3(velocityChange.x, 0, velocityChange.z);
 
         //limit force
         Vector3.ClampMagnitude(velocityChange, maxForce);
-        rigidbody.AddForce(velocityChange, ForceMode.VelocityChange);
+        rBody.AddForce(velocityChange, ForceMode.VelocityChange);  
+    }
+    
+    void Looking()
+    {
+        //Turning
+        transform.Rotate(Vector3.up * look.x * sensitivity);
+
+        //Look
+        lookRoatation += -look.y * sensitivity;
+        lookRoatation = Mathf.Clamp(lookRoatation, -90, 90);
+        camDisplay.transform.eulerAngles = new Vector3(lookRoatation, camDisplay.transform.eulerAngles.y, camDisplay.transform.eulerAngles.z);
+    }
+    
+    void Jumping()
+    {
+        Vector3 jumpingForces = Vector3.zero;
+        
+        if (grounded)
+        {
+            jumpingForces = Vector3.up * jumpingForce;
+        }
+
+        rBody.AddForce(jumpingForces, ForceMode.VelocityChange);
     }
     // Start is called before the first frame update
     void Start()
     {
-        
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        
+        Looking();
+    }
+
+    public void SetGrounded( bool state)
+    {
+        grounded = state;
     }
 }

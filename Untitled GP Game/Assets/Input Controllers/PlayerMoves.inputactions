@@ -1,5 +1,5 @@
 {
-    "name": "Untitled GP Game",
+    "name": "PlayerMoves",
     "maps": [
         {
             "name": "Player",
@@ -27,6 +27,15 @@
                     "name": "Fire",
                     "type": "Button",
                     "id": "9b94899a-d692-480c-a0b2-39d1e0a12848",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Jumping",
+                    "type": "Button",
+                    "id": "27e61b04-1cfa-4bc4-bf2e-8f1ce4dda440",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -251,6 +260,28 @@
                     "processors": "",
                     "groups": "XR",
                     "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "65cfcf4e-40a4-4da8-b1b0-28b9e83e10fb",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jumping",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2aacb0d2-5bf0-4fee-8cb2-cb8adbcb749d",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jumping",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
