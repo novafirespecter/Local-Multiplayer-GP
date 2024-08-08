@@ -44,15 +44,6 @@ public partial class @PlayerCtrls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""New action"",
-                    ""type"": ""Button"",
-                    ""id"": ""9d57cddf-03aa-418c-acec-9d3606882954"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -68,6 +59,61 @@ public partial class @PlayerCtrls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": ""WASD"",
+                    ""id"": ""2ef6e183-f0b8-4739-b822-e24198c16745"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Up"",
+                    ""id"": ""715eae5f-58f8-4158-8a8e-c42654a2f8f8"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Down"",
+                    ""id"": ""4b4f494f-6174-4e90-a211-aa60ddc5855e"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Left"",
+                    ""id"": ""47b5ec01-7a43-4413-8f53-ea0c8dab3a51"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Right"",
+                    ""id"": ""0c9083c2-c055-4c05-90c3-89b861540f84"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
                     ""id"": ""6100ebd3-0e67-48c5-9035-4c6701e3367f"",
                     ""path"": ""<Gamepad>/leftShoulder"",
@@ -75,17 +121,6 @@ public partial class @PlayerCtrls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Run"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""a6e321fc-a3d1-4cf9-bcff-54c29c91bc27"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""New action"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -98,7 +133,6 @@ public partial class @PlayerCtrls: IInputActionCollection2, IDisposable
         m_CharacterCtrls = asset.FindActionMap("CharacterCtrls", throwIfNotFound: true);
         m_CharacterCtrls_Movement = m_CharacterCtrls.FindAction("Movement", throwIfNotFound: true);
         m_CharacterCtrls_Run = m_CharacterCtrls.FindAction("Run", throwIfNotFound: true);
-        m_CharacterCtrls_Newaction = m_CharacterCtrls.FindAction("New action", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -162,14 +196,12 @@ public partial class @PlayerCtrls: IInputActionCollection2, IDisposable
     private List<ICharacterCtrlsActions> m_CharacterCtrlsActionsCallbackInterfaces = new List<ICharacterCtrlsActions>();
     private readonly InputAction m_CharacterCtrls_Movement;
     private readonly InputAction m_CharacterCtrls_Run;
-    private readonly InputAction m_CharacterCtrls_Newaction;
     public struct CharacterCtrlsActions
     {
         private @PlayerCtrls m_Wrapper;
         public CharacterCtrlsActions(@PlayerCtrls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_CharacterCtrls_Movement;
         public InputAction @Run => m_Wrapper.m_CharacterCtrls_Run;
-        public InputAction @Newaction => m_Wrapper.m_CharacterCtrls_Newaction;
         public InputActionMap Get() { return m_Wrapper.m_CharacterCtrls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -185,9 +217,6 @@ public partial class @PlayerCtrls: IInputActionCollection2, IDisposable
             @Run.started += instance.OnRun;
             @Run.performed += instance.OnRun;
             @Run.canceled += instance.OnRun;
-            @Newaction.started += instance.OnNewaction;
-            @Newaction.performed += instance.OnNewaction;
-            @Newaction.canceled += instance.OnNewaction;
         }
 
         private void UnregisterCallbacks(ICharacterCtrlsActions instance)
@@ -198,9 +227,6 @@ public partial class @PlayerCtrls: IInputActionCollection2, IDisposable
             @Run.started -= instance.OnRun;
             @Run.performed -= instance.OnRun;
             @Run.canceled -= instance.OnRun;
-            @Newaction.started -= instance.OnNewaction;
-            @Newaction.performed -= instance.OnNewaction;
-            @Newaction.canceled -= instance.OnNewaction;
         }
 
         public void RemoveCallbacks(ICharacterCtrlsActions instance)
@@ -222,6 +248,5 @@ public partial class @PlayerCtrls: IInputActionCollection2, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
-        void OnNewaction(InputAction.CallbackContext context);
     }
 }

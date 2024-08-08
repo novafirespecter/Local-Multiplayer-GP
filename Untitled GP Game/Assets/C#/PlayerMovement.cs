@@ -10,7 +10,6 @@ public class PlayerMovement : MonoBehaviour
     int isRunning; //Parameter ID
 
     PlayerCtrls input; //PlayerInput 
-
     Vector2 currentMove; //Player Input Values
     bool movePressed;
     bool runPressed;
