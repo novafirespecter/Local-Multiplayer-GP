@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerMove : MonoBehaviour
 {
+    //(Potato Code, 2022)
+
     public Rigidbody rBody;
     public GameObject camDisplay;
     public float speed, sensitivity, maxForce, jumpingForce;
@@ -87,3 +89,8 @@ public class PlayerMove : MonoBehaviour
         grounded = state;
     }
 }
+
+// Name: PotatoHead
+// Title: How To Make a Rigidbody Play Controller with Unity's Input System
+// Source: Youtube
+// Date: 15 May 2022
