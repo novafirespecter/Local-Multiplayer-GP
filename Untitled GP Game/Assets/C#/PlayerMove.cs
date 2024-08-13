@@ -11,7 +11,7 @@ public class PlayerMove : MonoBehaviour
     public GameObject camDisplay;
     public float speed, sensitivity, maxForce, jumpingForce;
     public Vector2 move, look;
-    public float lookRoatation;
+    public float lookRotation;
     public bool grounded;
 
     public void OnMove(InputAction.CallbackContext context)
@@ -56,9 +56,9 @@ public class PlayerMove : MonoBehaviour
         transform.Rotate(Vector3.up * look.x * sensitivity);
 
         //Look
-        lookRoatation += -look.y * sensitivity;
-        lookRoatation = Mathf.Clamp(lookRoatation, -90, 90);
-        camDisplay.transform.eulerAngles = new Vector3(lookRoatation, camDisplay.transform.eulerAngles.y, camDisplay.transform.eulerAngles.z);
+        lookRotation += -look.y * sensitivity;
+        lookRotation = Mathf.Clamp(lookRotation, -90, 90);
+        camDisplay.transform.eulerAngles = new Vector3(lookRotation, camDisplay.transform.eulerAngles.y, camDisplay.transform.eulerAngles.z);
     }
     
     void Jumping()
