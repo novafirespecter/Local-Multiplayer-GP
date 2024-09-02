@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerSpawn : MonoBehaviour
 {
-    [Header("Menu Spawn Points")]
-    [SerializeField] Transform[] menuSpawnPoints;
+    [Header("Spawn Points")]
+    [SerializeField] Transform[] SpawnPoints;
     //[SerializeField] InputAction joinAction;
     private int numPlayers;
     //function called once on scene start
@@ -17,8 +17,8 @@ public class PlayerSpawn : MonoBehaviour
     //automatically called when player joins the game session
    void OnPlayerJoined(PlayerInput playerInput)
     {
-        Debug.Log("Spawn Position: " + menuSpawnPoints[numPlayers].position);
-        playerInput.GetComponent<Rigidbody>().position = menuSpawnPoints[numPlayers].position;
+        Debug.Log("Spawn Position: " + SpawnPoints[numPlayers].position);
+        playerInput.GetComponent<Rigidbody>().position = SpawnPoints[numPlayers].position;
         //no longer allow people to join the game when hitting the limit
         if (numPlayers > 3)
         {

@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ground
   - Roof Ground
+  - Teleporter
+  - SecondTeleporter
   layers:
   - Default
   - TransparentFX

@@ -7,15 +7,24 @@ public class PlayerMove : MonoBehaviour
 {
     //(Potato Code, 2022)
 
+    [Header("Movement & Camera")]
     public Rigidbody rBody;
     public GameObject camDisplay;
     public float speed, sensitivity, gamepadSensitivity, maxForce, jumpingForce;
     public Vector2 move, look, lookGamepad;
+
+    [Header("Rotation")]
     public float lookRoatation;
+
+    [Header("Grounded")]
     public bool grounded;
-    private Animator animator;
-    bool isRunning;
-    bool isJumping;
+
+    [Header("Audio")]
+    public AudioSource footstepSound;
+
+    // private Animator animator;
+    // bool isRunning;
+    // bool isJumping;
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -55,27 +64,24 @@ public class PlayerMove : MonoBehaviour
         //limit force
         Vector3.ClampMagnitude(velocityChange, maxForce);
         rBody.AddForce(velocityChange, ForceMode.VelocityChange);
-
-        float avoidFloorDistance = .1f;
-        float ladderGrabDistance = .4f;
-        if (Physics.Raycast(transform.position + Vector3.up * avoidFloorDistance, targetVelocity, out RaycastHit raycastHit, ladderGrabDistance))
-        {
-            if(raycastHit.transform.TryGetComponent(out Ladder ladder))
-            {
-                targetVelocity.x = 0f;
-                targetVelocity.y = targetVelocity.z;
-                targetVelocity.z = 0f;
-                grounded = true;
-            }
-        }
         
-        if (move.x != 0 || move.y != 0)
-        {
-            isRunning = true;
-        }
-        else {isRunning = false;}
+        // if (move.x != 0 || move.y != 0)
+        // {
+        //     isRunning = true;
+        // }
+        // else {isRunning = false;}
             
-        animator.SetBool("isRunning", isRunning);
+        // animator.SetBool("isRunning", isRunning);
+
+                    // Play footstep sound when moving
+        if (footstepSound && move.x != 0 || move.y != 0 && !footstepSound.isPlaying)
+        {
+            footstepSound.Play();
+        }
+        else if (footstepSound && move.x != 0 || move.y ! == 0)
+        {
+            footstepSound.Stop();
+        }
     }
     
     void Looking()
@@ -107,21 +113,21 @@ public class PlayerMove : MonoBehaviour
         if (grounded)
         {
             jumpingForces = Vector3.up * jumpingForce;
-            isJumping = true;
+            // isJumping = true;
         }
         else
         {
-            isJumping = false;
+            // isJumping = false;
         }
 
         rBody.AddForce(jumpingForces, ForceMode.VelocityChange);
 
-        animator.SetBool("isJumping", isJumping);
+        // animator.SetBool("isJumping", isJumping);
     }
 
     private void Awake() 
     {
-        animator = GetComponent<Animator>();
+        // animator = GetComponent<Animator>();
     }
 
     // Start is called before the first frame update
@@ -135,6 +141,11 @@ public class PlayerMove : MonoBehaviour
     {
         Looking();
         LookingGamepad();
+    }
+
+    private void Update()
+    {
+       Debug.DrawRay(transform.position, Vector3.forward, Color.green);  
     }
 
     public void SetGrounded( bool state)

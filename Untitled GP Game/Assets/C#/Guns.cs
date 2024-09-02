@@ -10,6 +10,7 @@ public class Guns : MonoBehaviour
 
     //bullet 
     public GameObject bullet;
+    
 
     //bullet force
     public float shootForce, upwardForce;
@@ -43,24 +44,21 @@ public class Guns : MonoBehaviour
     public AudioSource shootingSound;
 
     //Animation
-    public Animator animator;
-    bool isShooting;
+    // public Animator animator;
+    // bool isShooting;
 
     public PlayerInput playerInput;
 
     public void OnFire(InputAction.CallbackContext context)
     {
-        // if (context.started)
+        if (context.started)
+        {
+            Shoot();
+        }
+        // if(context.performed)
         // {
         // Shoot();
-        // isShooting = true;
-        // animator.SetBool("isShooting", isShooting);
         // }
-        if(context.performed)
-        {
-        isShooting = false;
-        animator.SetBool("isShooting", isShooting); 
-        }
 
     }
 
@@ -82,11 +80,11 @@ public class Guns : MonoBehaviour
         if (ammunitionDisplay != null)
             ammunitionDisplay.SetText(bulletsLeft / bulletsPerTap + " / " + magazineSize / bulletsPerTap);
 
-            if(!playerInput.actions["Fire"].inProgress)
-            {
-                isShooting = false;
-            animator.SetBool("isShooting", isShooting); 
-            }
+            // if(!playerInput.actions["Fire"].inProgress)
+            // {
+            //     isShooting = false;
+            // animator.SetBool("isShooting", isShooting); 
+            // }
     }
 
     private void Shoot()
